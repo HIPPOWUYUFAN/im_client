@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config ./build/webpack.dev.config.js",
-    "build": "webpack --config ./build/webpack.dev.config.js"
+    "build": "webpack --config ./build/webpack.dev.config.js",
+    "produce": "webpack --config ./build/webpack.dev.config.js --mode production"
   },
   "keywords": [],
   "author": "hippo",
