@@ -2,7 +2,8 @@ const path = require('path');
 const htmlWebPackPlugin = require('html-webpack-plugin') // 导入 在内存中自动生成index页面的插件 ，自动打包好的js文件追加入index中
 const htmlPlugin = new htmlWebPackPlugin({
     template: path.join(__dirname, '../dist/index.html'), // 源文件
-    filename: 'index.html'  // 生成内存中首页的名称
+    filename: 'index.html',  // 生成内存中首页的名称
+    favicon: './favicon.ico',
 })
 
 module.exports = {
@@ -29,7 +30,7 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, '../dist'),
         compress: true,  // gzip压缩
-        host: '0.0.0.0', // 允许ip访问·
+        host: 'localhost', // 允许ip访问·
         progress: true,//显示进度·
         hot: true, // 热更新
         open: true,//编译默认打开浏览器
