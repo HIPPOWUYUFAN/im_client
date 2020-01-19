@@ -1,14 +1,18 @@
 import React from 'react';
 
-import { Route, Switch } from 'react-router-dom';
+import {
+    Route,
+    Switch
+} from 'react-router-dom';
 
 // 引入页面
-import Home from 'pages/home';
-
+import CardId from 'pages/cardId';
+import Container from 'pages/container';
 // 路由
 const getRouter = () => (
     <Switch>
-        <Route exact path="/:id?" component={Home}/>
+            <Route exact path="/" component={Container} />
+            <Route path="/cardId/:id?" component={CardId} />
     </Switch>
 );
 

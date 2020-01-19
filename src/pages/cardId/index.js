@@ -4,7 +4,7 @@ import calc from '../../public/utils';
 import 'assets/index.css';
 import sure from 'assets/sure.svg'
 // const calc = require('../../public/utils')
-export default class Home extends PureComponent {
+export default class CardId extends PureComponent {
     constructor(props) {
         super(props)
         this.state = {
@@ -49,7 +49,6 @@ export default class Home extends PureComponent {
                 othersInfo: <img src={sure} className="radio" style={{ border: 0 }}></img>
             }
 
-        let username = this.state.dataInfo.username
         return (
             <div className="container">
                 <div className="message">
@@ -68,7 +67,7 @@ export default class Home extends PureComponent {
                     </div>
                     <div className="username">
                         <span className="user-title">真实姓名</span>
-                        <input type="text"  maxLength="10" placeholder="请填写真实姓名" className="idcard" value={username} onChange={this.handleChange.bind(this,'username')} />
+                        <input type="text"  maxLength="10" placeholder="请填写真实姓名" className="idcard" value={this.state.dataInfo.username} onChange={this.handleChange.bind(this,'username')} />
                     </div>
                     <div className="username">
                         <span className="user-title">身份证号</span>
