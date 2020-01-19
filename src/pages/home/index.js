@@ -20,6 +20,7 @@ export default class Home extends PureComponent {
                 itemFlag: 0, //1为身份证校验，0位图片校验
             }
         }
+        console.log(this.props)
     }
     changeInfo(e) {
         console.log(e)
