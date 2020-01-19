@@ -6,13 +6,24 @@ const htmlPlugin = new htmlWebPackPlugin({
     favicon: './favicon.ico',
 })
 
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production'
+const miniCssExtractPlugin = new MiniCssExtractPlugin({
+    // 这里的配置和webpackOptions.output中的配置相似
+    // 即可以通过在名字前加路径，来决定打包后的文件存在的路径
+    filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
+    chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[hash].css',
+})
+
 module.exports = {
 
     /*入口*/
     // entry: path.join(__dirname, '../src/index.js'),
     mode: 'development', // development
-    plugins:[
-        htmlPlugin
+    plugins: [
+        htmlPlugin,
+        miniCssExtractPlugin
     ],
     /*输出到dist目录，输出文件名字为bundle.js*/
     output: {
@@ -21,11 +32,43 @@ module.exports = {
     },
 
     module: {
-        rules: [{
-            test: /\.js$/,
-            use: ['babel-loader?cacheDirectory=true'],
-            include: path.join(__dirname, '../src')
-        }]
+        rules: [
+            {
+                test: /\.js$/,
+                use: ['babel-loader?cacheDirectory=true'],
+                include: path.join(__dirname, '../src')
+            },
+            {
+                test: /\.(sa|sc|c)ss$/,  // 可以打包后缀为sass/scss/css的文件
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // 这里可以指定一个 publicPath
+                            // 默认使用 webpackOptions.output中的publicPath
+                            // publicPath的配置，和plugins中设置的filename和chunkFilename的名字有关
+                            // 如果打包后，background属性中的图片显示不出来，请检查publicPath的配置是否有误
+                            publicPath: './',
+                            // publicPath: devMode ? './' : '../',   // 根据不同环境指定不同的publicPath
+                            hmr: devMode, // 仅dev环境启用HMR功能
+                        },
+                    },
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.(png|jpg|svg|gif|ico)?$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: { // 这里的options选项参数可以定义多大的图片转换为base64
+                        fallback: "file-loader",
+                        limit: 10 * 1024, // 表示小于10kb的图片转为base64,大于10kb的是路径
+                        outputPath: 'images', //定义输出的图片文件夹
+                        name: '[name].[contenthash:8].[ext]'
+                    }
+                }]
+            }
+        ]
     },
     devServer: {
         contentBase: path.join(__dirname, '../dist'),
@@ -51,7 +94,8 @@ module.exports = {
             components: path.join(__dirname, '../src/components'),
             router: path.join(__dirname, '../src/router'),
             actions: path.join(__dirname, '../src/redux/actions'),
-            reducers: path.join(__dirname, '../src/redux/reducers')
+            reducers: path.join(__dirname, '../src/redux/reducers'),
+            assets: path.join(__dirname, '../src/assets')
         }
     },
 
