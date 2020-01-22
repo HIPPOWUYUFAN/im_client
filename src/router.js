@@ -12,7 +12,7 @@ import Container from 'pages/container';
 const getRouter = () => (
     <Switch>
             <Route exact path="/" component={Container} />
-            <Route path="/cardId/:id?" component={CardId} />
+            <Route exact path="/cardId/:id?" component={CardId} />
     </Switch>
 );
 
