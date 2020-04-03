@@ -93,9 +93,9 @@ module.exports = {
             pages: path.join(__dirname, '../src/pages'),
             components: path.join(__dirname, '../src/components'),
             router: path.join(__dirname, '../src/router'),
-            actions: path.join(__dirname, '../src/redux/actions'),
-            reducers: path.join(__dirname, '../src/redux/reducers'),
-            assets: path.join(__dirname, '../src/assets')
+            store: path.join(__dirname, '../src/store'),
+            assets: path.join(__dirname, '../src/assets'),
+            routers: path.join(__dirname, '../src/routers')
         }
     },
 
