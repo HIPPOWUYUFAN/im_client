@@ -1,16 +1,33 @@
-import React, { PureComponent } from "react";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
-import Login from "@pages/login";
+import React from "react";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import Login from "@pages/Login";
+import Home from "@pages/Home";
 
-export default class IMRouters extends PureComponent {
-  
-    render() {
-        return (
-                <BrowserRouter>
-                    <Switch>
-                        <Route exact path="/" component={Login} />
-                    </Switch>
-                </BrowserRouter>
-        );
-    }
+// 子页面
+import Toobar from '@pages/Toobar'
+
+export function MainRouter() {
+
+    return (
+        <Router>
+            <Switch>
+                <Route exact path="/" component={Login} />
+                <Route path="/home" component={Home} />
+            </Switch>
+        </Router>
+    );
+}
+
+
+// 主页面子路由
+export function HomeRouter() {
+
+    return (
+        <Router>
+            <Switch>
+                <Route exact path='/home/toobar' component={Toobar} />
+            </Switch>
+        </Router>
+
+    )
 }

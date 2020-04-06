@@ -1,28 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Component } from 'react';
 import { connect } from 'react-redux'
-import action from '../../store/actions/userAction'
-import Button from '@material-ui/core/Button';
-// import { useTheme } from '@material-ui/core/styles';
-import { withStyles } from '@material-ui/core/styles';
-const styles = {
-    root: {
-      backgroundColor: 'red',
-    },
-  };
-  
-  @withStyles(styles)
-// const use = useTheme()
-class Login extends React.Component {
-    constructor(props){
+import action from '@store/actions/userAction'
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+
+class Login extends Component {
+    constructor(props) {
         super(props)
         this.btn = this.btn.bind(this)
-        console.log('constr')
-        console.log(this.props)
-        // console.log(use)
     }
     getDiv() {
-        console.log('getdiv')
-        console.log(this.props)
         return this.props.state.reducer.title.map((p, i) => {
             return (
                 // <div>{this.props.reducer.title}</div>
@@ -30,18 +17,20 @@ class Login extends React.Component {
             )
         })
     }
-    btn(e){
+    btn(e) {
         console.log(e)
         this.props.add(e)
         this.render()
     }
     render() {
         return (
-            <div>
-                {this.getDiv()}
-                <Button variant="contained" color="primary" onClick={()=>this.btn('313213')}>++++++</Button>
-            </div>
-
+            <Container >
+                 <Box width="100%" height="calc(100vh)" bgcolor="common.black">
+                @material-ui/system
+            </Box>
+            </Container>
+           
+            
         )
 
     }
@@ -49,7 +38,7 @@ class Login extends React.Component {
 
 
 function select(state) {
-    return {state:state}
+    return { state: state }
 }
 
-export default connect(select,action)(Login)
+export default connect(select, action)(Login)

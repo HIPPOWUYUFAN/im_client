@@ -1,27 +1,35 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src",
+        "jsx": "react",
+        "target": "es6",
+        "baseUrl": "./",
         "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node",
+        "inlineSourceMap": false,
+        "inlineSources": false,
+        "sourceMap": true,
         "paths": {
             "@pages/*": [
-                "/pages/*"
+                "src/pages/*"
             ],
             "@components/*": [
-                "/components/*"
+                "src/components/*"
             ],
             "@routers/*": [
-                "/routers/*"
+                "src/routers/*"
             ],
             "@store/*": [
-                "/store/*"
+                "src/store/*"
             ],
             "@assets/*": [
-                "/assets/*"
+                "src/assets/*"
             ],
         }
     },
     "exclude": [
-        "node_modules","dist"
+        "node_modules",
+        "dist"
     ],
     "include": [
         "src"
