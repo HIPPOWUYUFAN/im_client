@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import IMRouters from '@routers/router'
+import IMRouters from '@routers'
 import { Provider } from 'react-redux';
 import store from '@store';
 // import { ThemeProvider } from '@material-ui/core/styles';

@@ -6,7 +6,6 @@ export default () => {
         <div>
             <ul>
                 <li><Link to="/">Container</Link></li>
-                <li><Link to="/cardId">CardId</Link></li>
             </ul>
         </div>
     )
