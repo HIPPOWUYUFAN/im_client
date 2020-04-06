@@ -90,12 +90,11 @@ module.exports = {
     devtool: 'inline-source-map',
     resolve: {
         alias: {
-            pages: path.join(__dirname, '../src/pages'),
-            components: path.join(__dirname, '../src/components'),
-            router: path.join(__dirname, '../src/router'),
-            store: path.join(__dirname, '../src/store'),
-            assets: path.join(__dirname, '../src/assets'),
-            routers: path.join(__dirname, '../src/routers')
+            '@pages': path.join(__dirname, '../src/pages/'),
+            '@components': path.join(__dirname, '../src/components/'),
+            '@store': path.join(__dirname, '../src/store/'),
+            '@assets': path.join(__dirname, '../src/assets/'),
+            '@routers': path.join(__dirname, '../src/routers/')
         }
     },
 

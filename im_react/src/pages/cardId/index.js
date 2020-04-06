@@ -1,11 +1,12 @@
 import React, { PureComponent, Component } from 'react';
 import ReactDOM from 'react-dom';
 import calc from '../../public/utils';
-import 'assets/index.css';
-import sure from 'assets/sure.svg'
+import '@assets/index.css';
+import sure from '@assets/sure.svg'
 // const calc = require('../../public/utils')
 export default class CardId extends PureComponent {
     constructor(props) {
+        console.log(props)
         super(props)
         this.state = {
             // event: null,
@@ -20,6 +21,7 @@ export default class CardId extends PureComponent {
                 itemFlag: 0, //1为身份证校验，0位图片校验
             }
         }
+        console.log(this.state)
         console.log(this.props)
     }
     changeInfo(e) {

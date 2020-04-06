@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "experimentalDecorators": true,
+        "paths": {
+            "@pages/*": [
+                "/pages/*"
+            ],
+            "@components/*": [
+                "/components/*"
+            ],
+            "@routers/*": [
+                "/routers/*"
+            ],
+            "@store/*": [
+                "/store/*"
+            ],
+            "@assets/*": [
+                "/assets/*"
+            ],
+        }
+    },
+    "exclude": [
+        "node_modules","dist"
+    ],
+    "include": [
+        "src"
+    ]
+}

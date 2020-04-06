@@ -1,7 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
-import Login from "pages/login/index";
-import CardId from "../pages/cardId/index";
+import Login from "@pages/login";
+import CardId from "@pages/cardId";
 
 export default class IMRouters extends Component {
     constructor(){
@@ -11,7 +11,7 @@ export default class IMRouters extends Component {
         return (
                 <BrowserRouter>
                     <Switch>
-                        <Route exact path="/login" component={Login} />
+                        <Route exact path="/" component={Login} />
                         <Route exact path="/cardId/:id?" component={CardId} />
                     </Switch>
                 </BrowserRouter>
