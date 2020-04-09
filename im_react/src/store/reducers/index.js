@@ -1,19 +1,19 @@
 import { combineReducers } from 'redux'
-import userState from '@store/states/userState'
+import { userInfo } from '@store/states'
 
 
-function reducer(state = userState, action) {
-    let newState = state
+function userInfoState(state = userInfo, action) {
+    console.log(action)
     switch (action.type) {
-        case 'add':
-            newState.title = [...newState.title,action.data]
-            console.log(newState)
-            return{ ...newState}
+        case 'setUserInfo':
+            state = action.data
+            console.log(state)
+            return state
         default:
-            return newState
+            return state
     }
 }
 
 
 
-export default combineReducers({ reducer });
+export default combineReducers({ userInfoState });

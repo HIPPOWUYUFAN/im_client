@@ -7,7 +7,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from '@assets/theme'
 
 
-
 console.log(theme)
 ReactDom.render(
     <Provider store={store}>

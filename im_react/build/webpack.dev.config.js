@@ -34,12 +34,12 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 use: ['babel-loader?cacheDirectory=true'],
                 include: path.join(__dirname, '../src')
             },
             {
-                test: /\.(sa|sc|c)ss$/,  // 可以打包后缀为sass/scss/css的文件
+                test: /\.(sass|less|css)$/,  // 可以打包后缀为sass/less/css的文件
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
@@ -54,7 +54,8 @@ module.exports = {
                         },
                     },
                     'css-loader'
-                ]
+                ],
+                include: path.join(__dirname, '../src')
             },
             {
                 test: /\.(png|jpg|svg|gif|ico)?$/,
@@ -66,8 +67,25 @@ module.exports = {
                         outputPath: 'images', //定义输出的图片文件夹
                         name: '[name].[contenthash:8].[ext]'
                     }
-                }]
-            }
+                }],
+                include: path.join(__dirname, '../src')
+            },
+            {
+                test: /\.(eot|woff2?|ttf|woff)$/,
+                use: [
+                    {
+                        loader: "url-loader",
+                        options: {
+                            name: "[name]-[hash:5].min.[ext]",
+                            limit: 5000, // fonts file size <= 5KB, use 'base64'; else, output svg file
+                            publicPath: "fonts/",
+                            outputPath: "fonts/"
+                        }
+                    }
+                ],
+                include: path.join(__dirname, '../src')
+            },
+
         ]
     },
     devServer: {
@@ -94,7 +112,8 @@ module.exports = {
             '@components': path.join(__dirname, '../src/components/'),
             '@store': path.join(__dirname, '../src/store/'),
             '@assets': path.join(__dirname, '../src/assets/'),
-            '@routers': path.join(__dirname, '../src/routers/')
+            '@routers': path.join(__dirname, '../src/routers/'),
+            '@hooks': path.join(__dirname, '../src/hooks/')
         }
     },
 

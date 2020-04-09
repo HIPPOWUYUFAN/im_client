@@ -2,8 +2,8 @@
 class Action { }
 
 
-Action.prototype.add = function(e){
-    return { type: "add", data:e }
+Action.prototype.setUserInfo = function(e){
+    return { type: "setUserInfo", data:e }
 }
 
 let action = new Action()
