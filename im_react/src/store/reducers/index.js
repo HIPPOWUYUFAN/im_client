@@ -3,7 +3,7 @@ import { userInfo } from '@store/states'
 
 
 function userInfoState(state = userInfo, action) {
-    console.log(action)
+    // console.log(action)
     switch (action.type) {
         case 'setUserInfo':
             state = action.data
