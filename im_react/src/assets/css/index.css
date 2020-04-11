@@ -183,7 +183,7 @@ body {
 body {
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: none;
-  touch-action: none;
+  touch-action: auto;
 }
 
 ::-webkit-input-placeholder {

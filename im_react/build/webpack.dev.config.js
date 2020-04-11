@@ -91,7 +91,7 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, '../dist'),
         compress: true,  // gzip压缩
-        host: 'localhost', // 允许ip访问·
+        host: '192.168.31.120', // 允许ip访问·
         progress: true,//显示进度·
         hot: true, // 热更新
         open: true,//编译默认打开浏览器

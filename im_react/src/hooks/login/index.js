@@ -14,7 +14,8 @@ export const LoginSize = function () {
 export const formValidator = function () {
     const [validator, setValidator] = useState({
         username: false,
-        password: false
+        password: false,
+        phone: false
     })
     // const setUserInfoChange = useCallback(
     //     (e)=>{

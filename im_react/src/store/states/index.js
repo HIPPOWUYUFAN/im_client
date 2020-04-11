@@ -1,4 +1,5 @@
 export const userInfo = {
     username: '',
-    password: ''
+    password: '',
+    phone: ''
 }
