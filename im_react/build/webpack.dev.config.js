@@ -19,7 +19,7 @@ const miniCssExtractPlugin = new MiniCssExtractPlugin({
 module.exports = {
 
     /*入口*/
-    // entry: path.join(__dirname, '../src/index.js'),
+    entry: path.join(__dirname, '../src/index.jsx'),
     mode: 'development', // development
     plugins: [
         htmlPlugin,
@@ -108,13 +108,15 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     resolve: {
+        extensions: [".js", ".jsx", ".json"],
         alias: {
             '@pages': path.join(__dirname, '../src/pages/'),
             '@components': path.join(__dirname, '../src/components/'),
             '@store': path.join(__dirname, '../src/store/'),
             '@assets': path.join(__dirname, '../src/assets/'),
             '@routers': path.join(__dirname, '../src/routers/'),
-            '@hooks': path.join(__dirname, '../src/hooks/')
+            '@hooks': path.join(__dirname, '../src/hooks/'),
+            '@services': path.join(__dirname, '../src/services/')
         }
     },
 

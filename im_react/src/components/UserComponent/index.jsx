@@ -4,12 +4,16 @@ import { connect } from 'react-redux'
 import action from '@store/actions'
 import hippo from '@assets/img/hippo.svg';
 import '@assets/css/font.css'
-import { style_form, style_input } from './styles'
+import { style_form } from './styles'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { LoginSize, formValidator } from '@hooks'
-
+import { setLocalStorage } from '@services/public'
+import { test } from '@services/httpClient'
+import {Redirect} from 'react-router-dom'
+import { render } from 'react-dom';
 function UserComponent(props) {
+
     console.log(props)
 
     // 自适应屏幕高度
@@ -52,11 +56,16 @@ function UserComponent(props) {
     // const styles_form = style_form([formValidatorHooks.validator, loginSizeHeight])
 
     const signIn = () => {
-        if (validator()) {
-            console.log('登陆')
-        }
-        console.log(props)
+        // if (validator()) {
+        //     console.log('登陆')
+        // }
 
+        console.log(props)
+        //  return (<Redirect to="/home"/>)
+        //    console.log(11)
+        // setLocalStorage('_token', '1')
+        
+        // props.history.push('/')
     }
 
 
@@ -93,7 +102,7 @@ function UserComponent(props) {
             flexDirection="column"
             // paddingBottom={loginSizeHeight > 736 ? '9rem' : '0'}
             paddingTop='5rem'
-            // justifyContent="center"
+        // justifyContent="center"
         >
             <Box
                 component="img"
@@ -159,7 +168,7 @@ function UserComponent(props) {
                     variant="contained"
                     color="primary"
                     endIcon={props.type == 'SignIn' ? <LockOpenIcon /> : <PersonAddIcon />}
-                    onClick={signIn}
+                    onClick={()=>{props.history.push('/home')}}
                 >
                     {props.type == 'SignIn' ? 'sign in' : 'sign up'}
                 </Button>

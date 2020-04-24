@@ -29,6 +29,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.9",
     "@material-ui/icons": "^4.9.1",
+    "axios": "^0.19.2",
     "jslint": "^0.12.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

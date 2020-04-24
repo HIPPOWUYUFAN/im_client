@@ -28,6 +28,9 @@
             "@hooks/*": [
                 "src/hooks/*"
             ],
+            "@services/*": [
+                "src/services/*"
+            ],
         }
     },
     "exclude": [
