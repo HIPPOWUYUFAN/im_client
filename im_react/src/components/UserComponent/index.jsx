@@ -7,11 +7,13 @@ import '@assets/css/font.css'
 import { style_form } from './styles'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { LoginSize, formValidator } from '@hooks'
+import { formValidator } from '@hooks/login'
+import { SimpleBackdrop } from '@services/componentBase'
 import { setLocalStorage } from '@services/public'
-import { test } from '@services/httpClient'
-import {Redirect} from 'react-router-dom'
-import { render } from 'react-dom';
+import { simpleBackdropHooks } from '@hooks/componentBase'
+import { Redirect } from 'react-router'
+
+
 function UserComponent(props) {
 
     console.log(props)
@@ -54,18 +56,24 @@ function UserComponent(props) {
     // material ui 样式
     const styles_form = style_form()
     // const styles_form = style_form([formValidatorHooks.validator, loginSizeHeight])
-
+    const { open, setOpen } = simpleBackdropHooks()
     const signIn = () => {
-        // if (validator()) {
-        //     console.log('登陆')
-        // }
+        setOpen(true)
+        console.log(open)
+        if (validator()) {
+            console.log('登陆')
+            setTimeout(() => {
+                setOpen(false)
+                console.log(open)
+            }, 1000);
+        }
 
         console.log(props)
-        //  return (<Redirect to="/home"/>)
+
         //    console.log(11)
         // setLocalStorage('_token', '1')
-        
-        // props.history.push('/')
+
+        // props.history.push('/home')
     }
 
 
@@ -168,7 +176,7 @@ function UserComponent(props) {
                     variant="contained"
                     color="primary"
                     endIcon={props.type == 'SignIn' ? <LockOpenIcon /> : <PersonAddIcon />}
-                    onClick={()=>{props.history.push('/home')}}
+                    onClick={signIn}
                 >
                     {props.type == 'SignIn' ? 'sign in' : 'sign up'}
                 </Button>
@@ -178,11 +186,13 @@ function UserComponent(props) {
                     endIcon={props.type == 'SignIn' ? <PersonAddIcon /> : <LockOpenIcon />}
                     className='btn'
                     onClick={() => {
-                        props.type == 'SignIn' ? props.history.push('/login/signup') : props.history.go(-1)
+                        props.type == 'SignIn' ? props.history.push('/signup') : props.history.go(-1)
                     }}
                 >
                     {props.type == 'SignIn' ? 'sign up' : 'sign in'}
                 </Button>
+                {/* < Redirect to="/home" /> */}
+                <SimpleBackdrop state={open}/>
             </form>
 
         </Box >

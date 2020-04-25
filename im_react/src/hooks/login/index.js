@@ -17,11 +17,6 @@ export const formValidator = function () {
         password: false,
         phone: false
     })
-    // const setUserInfoChange = useCallback(
-    //     (e)=>{
-    //         console.log(e)
-    //         setUserInfo(e)
-    //     }
-    // )
+    
     return { validator, setValidator }
 }
