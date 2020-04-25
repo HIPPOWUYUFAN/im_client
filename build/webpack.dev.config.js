@@ -3,14 +3,14 @@ const htmlWebPackPlugin = require('html-webpack-plugin') // 导入 在内存中�
 const htmlPlugin = new htmlWebPackPlugin({
     template: path.join(__dirname, '../index.html'), // 源文件
     filename: 'index.html',  // 生成内存中首页的名称
-    favicon: './favicon.ico',
+    inject: true,
 })
 const copyWebpackPlugin = require("copy-webpack-plugin");
 const copyPlugin = new copyWebpackPlugin([{
     from: path.resolve(__dirname, "../favicon.ico"),
     to: './',
     ignore: ['.*']
-}]);
+}])
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devMode = process.env.NODE_ENV !== 'production'
