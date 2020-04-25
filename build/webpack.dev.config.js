@@ -1,11 +1,16 @@
 const path = require('path');
 const htmlWebPackPlugin = require('html-webpack-plugin') // 导入 在内存中自动生成index页面的插件 ，自动打包好的js文件追加入index中
 const htmlPlugin = new htmlWebPackPlugin({
-    template: path.join(__dirname, '../dist/index.html'), // 源文件
+    template: path.join(__dirname, '../index.html'), // 源文件
     filename: 'index.html',  // 生成内存中首页的名称
     favicon: './favicon.ico',
 })
-
+const copyWebpackPlugin = require("copy-webpack-plugin");
+const copyPlugin = new copyWebpackPlugin([{
+    from: path.resolve(__dirname, "../favicon.ico"),
+    to: './',
+    ignore: ['.*']
+}]);
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devMode = process.env.NODE_ENV !== 'production'
@@ -23,7 +28,8 @@ module.exports = {
     mode: 'development', // development
     plugins: [
         htmlPlugin,
-        miniCssExtractPlugin
+        miniCssExtractPlugin,
+        copyPlugin
     ],
     /*输出到dist目录，输出文件名字为bundle.js*/
     output: {
