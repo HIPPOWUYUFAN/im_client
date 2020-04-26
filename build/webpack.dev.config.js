@@ -3,7 +3,7 @@ const htmlWebPackPlugin = require('html-webpack-plugin') // 导入 在内存中�
 const htmlPlugin = new htmlWebPackPlugin({
     template: path.join(__dirname, '../index.html'), // 源文件
     filename: 'index.html',  // 生成内存中首页的名称
-    inject: true,
+    inject: false,
 })
 const copyWebpackPlugin = require("copy-webpack-plugin");
 const copyPlugin = new copyWebpackPlugin([{

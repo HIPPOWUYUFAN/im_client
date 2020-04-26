@@ -204,5 +204,4 @@ function UserComponent(props) {
 function select(state) {
     return { state: state }
 }
-
 export default connect(select, action)(UserComponent)
