@@ -1,17 +1,17 @@
 const path = require('path');
 const devMode = process.env.NODE_ENV !== 'production'
-console.log(devMode)
+
 const htmlWebPackPlugin = require('html-webpack-plugin') // 导入 在内存中自动生成index页面的插件 ，自动打包好的js文件追加入index中
 const htmlPlugin = new htmlWebPackPlugin({
     template: path.join(__dirname, '../index.html'), // 源文件
     filename: 'index.html',  // 生成内存中首页的名称
     inject: true,
-    minify:{//生产期间使用，直接设置为true，开发时设置为false
+    minify: {//生产期间使用，直接设置为true，开发时设置为false
         // removeAttributeQuotes:true,//删除双引号
-        removeComments:true,//删除注释
-        collapseWhitespace:false,//压缩代码
-        removeStyleLinkTypeAttributes:false,
-        removeScriptTypeAttributes:false
+        removeComments: true,//删除注释
+        collapseWhitespace: false,//压缩代码
+        removeStyleLinkTypeAttributes: false,
+        removeScriptTypeAttributes: false
     }
 })
 
@@ -35,21 +35,24 @@ const miniCssExtractPlugin = new MiniCssExtractPlugin({
 })
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 module.exports = {
 
     /*入口*/
     entry: path.join(__dirname, '../src/index.jsx'),
-    mode: 'development', // development
+    mode: process.env.NODE_ENV,
     plugins: [
         htmlPlugin,
         miniCssExtractPlugin,
         copyPlugin,
         // new BundleAnalyzerPlugin({ analyzerPort: 8080 })
+        new CleanWebpackPlugin()
     ],
     /*输出到dist目录，输出文件名字为bundle.js*/
     output: {
         path: path.join(__dirname, '../dist'),
-        filename:'static/js/[name].bundle.js',
+        filename: 'static/js/[name].bundle.js',
     },
     optimization: {
         minimizer: [
@@ -68,9 +71,25 @@ module.exports = {
                     test: /[\\/]node_modules[\\/]/,
                     chunks: "initial",
                     name: 'vendors',
-                    priority: 10,
+                    priority: 1,
                     enforce: true //强制生成
                 },
+                commons: {
+                    test: /[\\/]src[\\/]/,
+                    name: 'commons',
+                    minSize: 50000,
+                    minChunks: 2,
+                    chunks: 'initial',
+                    priority: -1,
+                    reuseExistingChunk: true, // 这个配置允许我们使用已经存在的代码块
+                },
+                material: {
+                    name: 'material-ui', // 单独将 antd-design 拆包
+                    priority: 20,
+                    test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
+                    chunks: 'all',
+                },
+
             }
         }
     },
@@ -107,7 +126,7 @@ module.exports = {
                     options: { // 这里的options选项参数可以定义多大的图片转换为base64
                         fallback: "file-loader",
                         limit: 3 * 1024, // 表示小于10kb的图片转为base64,大于10kb的是路径
-                        outputPath:'static/img/', //定义输出的图片文件夹
+                        outputPath: 'static/img/', //定义输出的图片文件夹
                         name: '[name].[contenthash:8].[ext]'
                     }
                 }],
@@ -151,7 +170,7 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     resolve: {
-        modules:[path.resolve(__dirname, "src"), "node_modules"],
+        modules: [path.resolve(__dirname, "src"), "node_modules"],
         extensions: [".js", ".jsx", ".json"],
         alias: {
             '@pages': path.join(__dirname, '../src/pages/'),
@@ -166,4 +185,3 @@ module.exports = {
 
 };
 
-console.log(process.env.NODE_ENV)

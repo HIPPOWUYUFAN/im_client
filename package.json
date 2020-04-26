@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config ./build/webpack.dev.config.js",
-    "build": "cross-env NODE_ENV=development webpack --config ./build/webpack.dev.config.js",
-    "produce": "cross-env NODE_ENV=production webpack --config ./build/webpack.dev.config.js --mode production"
+    "dev": "cross-env NODE_ENV=development webpack --config ./build/webpack.dev.config.js",
+    "produce": "cross-env NODE_ENV=production webpack --config ./build/webpack.dev.config.js"
   },
   "keywords": [],
   "author": "hippo",
@@ -38,6 +38,7 @@
     "@material-ui/core": "^4.9.9",
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.19.2",
+    "clean-webpack-plugin": "^3.0.0",
     "jslint": "^0.12.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
