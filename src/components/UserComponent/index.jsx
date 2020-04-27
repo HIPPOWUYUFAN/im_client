@@ -8,7 +8,7 @@ import { style_form } from './styles'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { formValidator } from '@hooks/login'
-import { SimpleBackdrop } from '@services/componentBase'
+import { SimpleBackdrop,SimpleAlerts } from '@services/componentBase'
 import { setLocalStorage } from '@services/public'
 import { simpleBackdropHooks } from '@hooks/componentBase'
 import { Redirect } from 'react-router'
@@ -194,7 +194,7 @@ function UserComponent(props) {
                 {/* < Redirect to="/home" /> */}
                 <SimpleBackdrop state={open}/>
             </form>
-
+                <SimpleAlerts title='123213' type='error'/>
         </Box >
     )
 
