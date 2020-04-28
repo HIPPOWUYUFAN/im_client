@@ -24,3 +24,16 @@ export const removeLocalStorage = name => {
     if (!name) return
     window.localStorage.removeItem(name)
 }
+
+
+
+
+/**
+ * key value
+ */
+export const duplicate = (list,data) => {
+    Object.keys(data).map(key=>{
+        list[key] = data[key]
+    })
+    return list
+}

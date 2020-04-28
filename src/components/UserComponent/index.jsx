@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDom from 'react-dom';
 import { Button, TextField, Box } from '@material-ui/core';
 import { connect } from 'react-redux'
 import action from '@store/actions'
@@ -8,13 +9,14 @@ import { style_form } from './styles'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { formValidator } from '@hooks/login'
-import { SimpleBackdrop,SimpleAlerts } from '@services/componentBase'
+import { SimpleBackdrop, SimpleAlerts } from '@services/componentBase'
 import { setLocalStorage } from '@services/public'
-import { simpleBackdropHooks } from '@hooks/componentBase'
+import { componentBollHooks } from '@hooks/componentBase'
 import { Redirect } from 'react-router'
+import { render } from 'react-dom';
 
 
-function UserComponent(props) {
+function UserComponent(props, state) {
 
     console.log(props)
 
@@ -56,24 +58,23 @@ function UserComponent(props) {
     // material ui 样式
     const styles_form = style_form()
     // const styles_form = style_form([formValidatorHooks.validator, loginSizeHeight])
-    const { open, setOpen } = simpleBackdropHooks()
-    const signIn = () => {
-        setOpen(true)
-        console.log(open)
-        if (validator()) {
-            console.log('登陆')
-            setTimeout(() => {
-                setOpen(false)
-                console.log(open)
-            }, 1000);
-        }
 
+    const { open, setOpen } = componentBollHooks({ loading: false, collapse: false, text: '', type: '' })
+
+
+    const signIn = () => {
+        console.log(state)
+        setOpen({ ...open, loading: true })
+        console.log(open)
+        if (!validator()) {
+            console.log('登陆')
+            console.log(open)
+            setTimeout(() => {
+                setOpen({ ...open, loading: false, collapse: true })
+            }, 2000);
+        }
         console.log(props)
 
-        //    console.log(11)
-        // setLocalStorage('_token', '1')
-
-        // props.history.push('/home')
     }
 
 
@@ -90,8 +91,7 @@ function UserComponent(props) {
                 variant="outlined"
                 onChange={(event) => {
                     props.setUserInfo({
-                        username: props.state.userInfoState.username,
-                        password: props.state.userInfoState.password,
+                        ...props.state.userInfoState,
                         phone: event.target.value,
                     })
                 }}
@@ -147,9 +147,8 @@ function UserComponent(props) {
                     variant="outlined"
                     onChange={(event) => {
                         props.setUserInfo({
+                            ...props.state.userInfoState,
                             username: event.target.value,
-                            password: props.state.userInfoState.password,
-                            phone: props.state.userInfoState.phone,
                         })
                     }}
                 />
@@ -164,9 +163,8 @@ function UserComponent(props) {
                     variant="outlined"
                     onChange={(event) => {
                         props.setUserInfo({
-                            username: props.state.userInfoState.username,
+                            ...props.state.userInfoState,
                             password: event.target.value,
-                            phone: props.state.userInfoState.phone,
                         })
                     }}
                     onKeyDown={(event) => { event.keyCode == 13 ? signIn() : null }}
@@ -192,9 +190,9 @@ function UserComponent(props) {
                     {props.type == 'SignIn' ? 'sign up' : 'sign in'}
                 </Button>
                 {/* < Redirect to="/home" /> */}
-                <SimpleBackdrop state={open}/>
+                <SimpleBackdrop status={open.loading} />
+                <SimpleAlerts text={open.text} type={open.type} status={open.collapse} callback={() => { setOpen({ ...open, collapse: false }) }} />,
             </form>
-                <SimpleAlerts title='123213' type='error'/>
         </Box >
     )
 

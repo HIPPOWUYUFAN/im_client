@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 
-export const simpleBackdropHooks = function () {
-    const [open, setOpen] = useState(false);
+
+export const componentBollHooks = function (e) {
+    const [open, setOpen] = useState(e);
     return {open,setOpen}
 }
