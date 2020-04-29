@@ -14,6 +14,8 @@ import { setLocalStorage } from '@services/public'
 import { componentBollHooks } from '@hooks/componentBase'
 import { Redirect } from 'react-router'
 import { render } from 'react-dom';
+import { useState, useEffect, useCallback } from 'react'
+import { msg, loading } from '@components/GlobalComponent'
 
 
 function UserComponent(props, state) {
@@ -59,25 +61,30 @@ function UserComponent(props, state) {
     const styles_form = style_form()
     // const styles_form = style_form([formValidatorHooks.validator, loginSizeHeight])
 
-    const { open, setOpen } = componentBollHooks({ loading: false, collapse: false, text: '', type: '' })
+    const { open, setOpen } = componentBollHooks({ redirRoute: false, loading: false, collapse: false, text: '', type: '' })
 
 
-    const signIn = () => {
-        console.log(state)
-        setOpen({ ...open, loading: true })
+    const signIn = async () => {
+        msg.addMsg('error',23131,2000)
+        // setOpen({ ...open, loading: true })
+        
         console.log(open)
         if (!validator()) {
             console.log('登陆')
             console.log(open)
-            setTimeout(() => {
-                setOpen({ ...open, loading: false, collapse: true })
-            }, 2000);
+            // setTimeout(() => {
+            //     setOpen({ ...open, loading: false, collapse: true, type: 'success' })
+            // }, 2000);
+
+            // setTimeout(() => {
+            //     setOpen({ ...open, redirRoute: true })
+            // }, 4000);
         }
         console.log(props)
 
     }
 
-
+    // input value==phone
     const setPhoneComponent = () => {
         return (
             <TextField
@@ -189,9 +196,9 @@ function UserComponent(props, state) {
                 >
                     {props.type == 'SignIn' ? 'sign up' : 'sign in'}
                 </Button>
-                {/* < Redirect to="/home" /> */}
-                <SimpleBackdrop status={open.loading} />
-                <SimpleAlerts text={open.text} type={open.type} status={open.collapse} callback={() => { setOpen({ ...open, collapse: false }) }} />,
+                {open.redirRoute ? <Redirect to="/home" /> : null}
+                {/* <LoadingComponent status={open.loading} /> */}
+                {/* <SimpleAlerts text={open.text} type={open.type} status={open.collapse} />, */}
             </form>
         </Box >
     )

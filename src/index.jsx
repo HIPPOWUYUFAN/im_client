@@ -6,6 +6,7 @@ import store from '@store';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from '@assets/theme'
 import { withRouter } from 'react-router';
+import { SimpleBackdrop, SimpleAlerts } from '@services/componentBase'
 
 
 ReactDom.render(

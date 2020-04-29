@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: theme.spacing(2),
         },
         position: 'fixed',
-        top: '10px',
+        width: 'auto',
         zIndex: 100000,
     },
 }));
@@ -46,11 +46,6 @@ export const SimpleBackdrop = function (props) {
 export const SimpleAlerts = function (props) {
     const classes = useStyles();
    
-    if (props.status) {
-        setTimeout(() => {
-            props.callback()
-        }, 2000);
-    }
     return (
         <div className={classes.root}>
             <Collapse in={props.status||false}>
