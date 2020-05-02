@@ -8,10 +8,22 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>River house chat</title>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <% for(let i in htmlWebpackPlugin.files.css){ %>
+    <link type="text/javascript" src="<%= htmlWebpackPlugin.files.css[i] %>"></link>
+  <% } %>
 </head>
 
 
 <body>
   <div id="app"></div>
 </body>
+
+
+
+
+<% for(let i in htmlWebpackPlugin.files.js){ %>
+<script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[i] %>"></script>
+<% } %>
+
+
 </html>

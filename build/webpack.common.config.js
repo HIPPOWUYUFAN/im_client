@@ -5,11 +5,11 @@ const htmlWebPackPlugin = require('html-webpack-plugin') // 导入 在内存中�
 const htmlPlugin = new htmlWebPackPlugin({
     template: path.join(__dirname, '../index.html'), // 源文件
     filename: 'index.html',  // 生成内存中首页的名称
-    inject: true,
+    inject: false,
     minify: {//生产期间使用，直接设置为true，开发时设置为false
         // removeAttributeQuotes:true,//删除双引号
         removeComments: true,//删除注释
-        collapseWhitespace: false,//压缩代码
+        collapseWhitespace: true,//压缩代码
         removeStyleLinkTypeAttributes: false,
         removeScriptTypeAttributes: false
     }

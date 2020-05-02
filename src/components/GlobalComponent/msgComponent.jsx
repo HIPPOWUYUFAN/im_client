@@ -20,40 +20,39 @@ class Msg extends Component {
         this.state = { notices: [] }
         // this.removeNotice = this.removeNotice.bind(this)
     }
-    open(type, content, time) {
+    open(type, content, duration, onClose) {
         console.log(type)
+        console.log(onClose)
         this.setState({
             type: type,
             content: content,
-            time: time,
+            duration: duration,
             status: true
         })
         console.log(this.state)
-        // console.log(notices)
-        this.close(time)
+        this.close(duration, onClose)
     }
-    close(time) {
-
-        let dispaly = setTimeout(() => {
+    close(duration, onClose) {
+        setTimeout(() => {
             this.setState({
                 ...this.state,
                 status: false
             })
-        }, time);
+            // onClose()
+        }, duration);
     }
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <Collapse in={this.state.status || false}>
-                    <Alert severity={this.state.type || 'error'}>{this.state.content || null}</Alert>
+                <Collapse in={this.state.status}>
+                    <Alert severity={this.state.type}>{this.state.content}</Alert>
                 </Collapse>
             </ThemeProvider>
-
         )
     }
 }
 
-function open() {
+function newNotices() {
     let div = document.createElement('div');
     let divId = document.createAttribute("id");
     divId.value = 'msg'
@@ -62,8 +61,9 @@ function open() {
     const ref = React.createRef()
     ReactDOM.render(<Msg ref={ref} />, div);
     return {
-        addMsg(...e) {
-            return ref.current.open(...e)
+        open(...e) {
+            console.log(ref.current)
+            return ref.current.open(...e, this.close)
         },
         close() {
             ReactDOM.unmountComponentAtNode(div);
@@ -71,4 +71,19 @@ function open() {
         }
     }
 }
-export default open();
+const notices = newNotices()
+
+export default {
+    info(content, duration) {
+        return notices.open('info', content, duration)
+    },
+    success(content, duration) {
+        return notices.open('success', content, duration)
+    },
+    warning(content, duration) {
+        return notices.open('warning', content, duration)
+    },
+    error(content, duration) {
+        return notices.open('error', content, duration)
+    },
+}
