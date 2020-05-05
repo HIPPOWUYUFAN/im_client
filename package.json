@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config ./build/webpack.dev.config.js",
     "dev": "cross-env NODE_ENV=development webpack --config ./build/webpack.dev.config.js",
-    "produce": "cross-env NODE_ENV=production webpack --config ./build/webpack.prod.config.js"
+    "build": "cross-env NODE_ENV=production webpack --config ./build/webpack.prod.config.js"
   },
   "keywords": [],
   "author": "hippo",
