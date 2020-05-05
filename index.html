@@ -9,7 +9,7 @@
   <title>River house chat</title>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <% for(let i in htmlWebpackPlugin.files.css){ %>
-    <link type="text/javascript" src="<%= htmlWebpackPlugin.files.css[i] %>"></link>
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>"></link>
   <% } %>
 </head>
 
