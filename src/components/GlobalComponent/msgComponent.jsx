@@ -74,16 +74,16 @@ function newNotices() {
 const notices = newNotices()
 
 export default {
-    info(content, duration) {
+    info(content, duration=2000) {
         return notices.open('info', content, duration)
     },
-    success(content, duration) {
+    success(content, duration=2000) {
         return notices.open('success', content, duration)
     },
-    warning(content, duration) {
+    warning(content, duration=2000) {
         return notices.open('warning', content, duration)
     },
-    error(content, duration) {
+    error(content, duration=2000) {
         return notices.open('error', content, duration)
     },
 }

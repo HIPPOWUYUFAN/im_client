@@ -9,7 +9,7 @@
   <title>River house chat</title>
   <link rel="shortcut icon" href="/favicon.ico" />
   <% for(let i in htmlWebpackPlugin.files.css){ %>
-    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>"></link>
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[i] %>" ></link>
   <% } %>
 </head>
 
@@ -22,7 +22,7 @@
 
 
 <% for(let i in htmlWebpackPlugin.files.js){ %>
-<script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[i] %>"></script>
+<script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[i] %>" async></script>
 <% } %>
 
 

@@ -20,3 +20,9 @@ export const formValidator = function () {
     
     return { validator, setValidator }
 }
+
+export const isRedirect = function () {
+    const [getRedirect, setRedirect] = useState(false)
+    
+    return { getRedirect, setRedirect }
+}

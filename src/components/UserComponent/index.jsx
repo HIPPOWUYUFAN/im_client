@@ -8,14 +8,15 @@ import '@assets/css/font.css'
 import { style_form } from './styles'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { formValidator } from '@hooks/login'
-import { setLocalStorage } from '@services/public'
+import { formValidator, isRedirect } from '@hooks/login'
+import { setLocalStorage, getLocalStorage } from '@services/public'
+import { sign_in, sign_up } from '@services/login'
 import { Redirect } from 'react-router'
-import { msg, loading } from '@components/GlobalComponent'
+// import { msg, loading } from '@components/GlobalComponent'
 
 
 function UserComponent(props, state) {
-
+    const { getRedirect, setRedirect } = isRedirect()
     console.log(props)
 
     // 自适应屏幕高度
@@ -57,15 +58,31 @@ function UserComponent(props, state) {
     const styles_form = style_form()
     // const styles_form = style_form([formValidatorHooks.validator, loginSizeHeight])
 
-
-    const signIn = async () => {
-        console.log(msg.info)
-        msg.info('3213213',1000)
-        // setOpen({ ...open, loading: true })
+    const login = () => {
+        sign_in(props.state.userInfoState).then(e => {
+            if (e.success) {
+                setLocalStorage('_token', e.data)
+                setRedirect(true)
+            }
+        })
+    }
+    const register = () => {
+        sign_up(props.state.userInfoState)
+            .then(r => {
+                if (r.success) {
+                    login(props.state.userInfoState)
+                }
+            })
+    }
+    const signIn = () => {
         if (validator()) {
-            console.log('登陆')
+            if (props.type == 'SignIn') {
+                login()
+            }
+            if (props.type == 'SignUp') {
+                register()
+            }
         }
-
     }
 
     // input value==phone
@@ -180,7 +197,7 @@ function UserComponent(props, state) {
                 >
                     {props.type == 'SignIn' ? 'sign up' : 'sign in'}
                 </Button>
-                {open.redirRoute ? <Redirect to="/home" /> : null}
+                {(getRedirect || getLocalStorage('_token')) ? <Redirect to="/home" /> : null}
             </form>
         </Box >
     )
