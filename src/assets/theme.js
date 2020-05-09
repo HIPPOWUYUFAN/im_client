@@ -5,5 +5,6 @@ import { common } from '@material-ui/core/colors';
 export const theme = createMuiTheme({
     palette: {
         type: 'dark',
+        background:{drawer:'#212121'}
     },
 });

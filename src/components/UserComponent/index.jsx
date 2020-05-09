@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import { Button, TextField, Box } from '@material-ui/core';
 import { connect } from 'react-redux'
 import action from '@store/actions'
@@ -12,8 +11,6 @@ import { formValidator, isRedirect } from '@hooks/login'
 import { setLocalStorage, getLocalStorage } from '@services/public'
 import { sign_in, sign_up } from '@services/login'
 import { Redirect } from 'react-router'
-// import { msg, loading } from '@components/GlobalComponent'
-
 
 function UserComponent(props, state) {
     const { getRedirect, setRedirect } = isRedirect()
@@ -74,6 +71,7 @@ function UserComponent(props, state) {
                 }
             })
     }
+
     const signIn = () => {
         if (validator()) {
             if (props.type == 'SignIn') {
@@ -163,6 +161,7 @@ function UserComponent(props, state) {
                 <TextField
                     key="password"
                     label="password"
+                    type="password"
                     error={formValidatorHooks.validator.password}
                     className='password'
                     id="password"
