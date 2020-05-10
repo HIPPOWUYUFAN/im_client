@@ -14,18 +14,19 @@ function isPc() {
     var userAgentInfo = navigator.userAgent;
     console.log(userAgentInfo)
     var Agents = ["Android", "iPhone",
-                "SymbianOS", "Windows Phone",
-                "iPad", "iPod"];
+        "SymbianOS", "Windows Phone",
+        "iPad", "iPod"];
     var flag = true;
     for (var v = 0; v < Agents.length; v++) {
         if (userAgentInfo.indexOf(Agents[v]) > 0) {
             flag = false;
-           break;
-       }
-   }
-   return flag;
+            break;
+        }
+    }
+    return flag;
 }
 ReactDom.render(
+
     <Provider store={store}>
         <ThemeProvider theme={theme}>
             <SnackbarProvider maxSnack={5} anchorOrigin={{
@@ -36,6 +37,7 @@ ReactDom.render(
             </SnackbarProvider>
         </ThemeProvider>
     </Provider>
+
     , document.getElementById('app')
 )
 

@@ -34,24 +34,31 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export const Dialog_left =  function() {
+export const Dialog_left = function (props) {
     const classes = useStyles()
+    const { data } = props
+    console.log(props)
     return (
         <div className={classes.root}>
-            <Avatar className={classes.purple}>H</Avatar>
-            <Chip color="primary" label="我是你吗我是你吗我是你吗我是你吗我是你吗我是你吗我是你吗" className={classes.chip} />
+            <Avatar className={classes.purple}>
+                {data.name.substr(0, 1)}
+            </Avatar>
+            <Chip color="primary" label={data.message} className={classes.chip} />
         </div>
 
     )
 }
 
 
-export const Dialog_right =  function() {
+export const Dialog_right = function (props) {
     const classes = useStyles()
+    const { data } = props
     return (
-        <div className={classes.root}  style={{'justifyContent': 'flex-end'}}>
-            <Chip color="primary" label="我是你吗我是你吗我是你吗我是你吗我是你吗我是你吗我是你吗"  className={classes.chip}/>
-            <Avatar className={classes.orange}>H</Avatar>
+        <div className={classes.root} style={{ 'justifyContent': 'flex-end' }}>
+            <Chip color="primary" label={data.message} className={classes.chip} />
+            <Avatar className={classes.orange}>
+                {data.name.substr(0, 1)}
+            </Avatar>
         </div>
 
     )

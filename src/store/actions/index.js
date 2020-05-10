@@ -1,22 +1,24 @@
+import { Dispatch } from "redux";
 
-class Action { }
 
+class UserAction { }
+class ChatAction { }
 
-Action.prototype.setUserInfo = function(e){
-    return { type: "setUserInfo", data:e }
+UserAction.prototype.setUserInfo = function (e) {
+    return { type: "setUserInfo", data: e }
+}
+ChatAction.prototype.setTabs = function (e) {
+    return { type: 'setTabs', data: e }
 }
 
-let action = new Action()
-export default action
+ChatAction.prototype.setChating = (e) => dispatch => {
+    dispatch({ type: 'setChating', data: e })
+    return Promise.resolve()
+}
 
-// export function test(dispatch: Dispatch) {
-//     return dispatch({ type: "SET_MOBILE_PAGE", data });
-// }
-
-// export function setBorrowOffers() {
-//     return async (dispatch: Dispatch) => {
-//       await getBorrowList().then(data => {
-//         dispatch({ type: "SET_BORROW_OFFERS", data: data });
-//       });
-//     };
-//   }
+ChatAction.prototype.setChatMessage = (e) => dispatch => {
+    dispatch({ type: 'setChatMessage', data: e })
+    return Promise.resolve()
+}
+export const userAction = new UserAction()
+export const chatAction = new ChatAction()

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, TextField, Box } from '@material-ui/core';
 import { connect } from 'react-redux'
-import action from '@store/actions'
+import { userAction } from '@store/actions'
 import hippo from '@assets/img/hippo.svg';
 import '@assets/css/font.css'
 import { style_form } from './styles'
@@ -24,25 +24,25 @@ function UserComponent(props, state) {
     const usernameValidator = (e) => (/^[-_a-zA-Z0-9]{1,10}$/.test(e))
     const passwordValidator = (e) => (/^[-_a-zA-Z0-9]{6,16}$/.test(e))
     const phoneValidator = (e) => (/^1(3|4|5|7|8)\d{9}$/.test(e))
-    const validator = () => {
+    function validator() {
         formValidatorHooks.setValidator(
             {
-                username: !usernameValidator(props.state.userInfoState.username),
-                password: !passwordValidator(props.state.userInfoState.password),
-                phone: !phoneValidator(props.state.userInfoState.phone),
+                username: !usernameValidator(props.state.username),
+                password: !passwordValidator(props.state.password),
+                phone: !phoneValidator(props.state.phone),
             }
         )
         if (
             props.type == 'SignIn'
-            && usernameValidator(props.state.userInfoState.username)
-            && passwordValidator(props.state.userInfoState.password)
+            && usernameValidator(props.state.username)
+            && passwordValidator(props.state.password)
         ) {
             return true
         } else if (
             props.type == 'SignUp'
-            && usernameValidator(props.state.userInfoState.username)
-            && passwordValidator(props.state.userInfoState.password)
-            && phoneValidator(props.state.userInfoState.phone)
+            && usernameValidator(props.state.username)
+            && passwordValidator(props.state.password)
+            && phoneValidator(props.state.phone)
         ) {
             return true
         } else {
@@ -55,24 +55,24 @@ function UserComponent(props, state) {
     const styles_form = style_form()
     // const styles_form = style_form([formValidatorHooks.validator, loginSizeHeight])
 
-    const login = () => {
-        sign_in(props.state.userInfoState).then(e => {
+    function login() {
+        sign_in(props.state).then(e => {
             if (e.success) {
                 setLocalStorage('_token', e.data)
                 setRedirect(true)
             }
         })
     }
-    const register = () => {
-        sign_up(props.state.userInfoState)
+    function register() {
+        sign_up(props.state)
             .then(r => {
                 if (r.success) {
-                    login(props.state.userInfoState)
+                    login(props.state)
                 }
             })
     }
 
-    const signIn = () => {
+    function signIn() {
         if (validator()) {
             if (props.type == 'SignIn') {
                 login()
@@ -84,7 +84,7 @@ function UserComponent(props, state) {
     }
 
     // input value==phone
-    const setPhoneComponent = () => {
+    function setPhoneComponent() {
         return (
             <TextField
                 key="phone"
@@ -97,7 +97,7 @@ function UserComponent(props, state) {
                 variant="outlined"
                 onChange={(event) => {
                     props.setUserInfo({
-                        ...props.state.userInfoState,
+                        ...props.state,
                         phone: event.target.value,
                     })
                 }}
@@ -153,7 +153,7 @@ function UserComponent(props, state) {
                     variant="outlined"
                     onChange={(event) => {
                         props.setUserInfo({
-                            ...props.state.userInfoState,
+                            ...props.state,
                             username: event.target.value,
                         })
                     }}
@@ -170,7 +170,7 @@ function UserComponent(props, state) {
                     variant="outlined"
                     onChange={(event) => {
                         props.setUserInfo({
-                            ...props.state.userInfoState,
+                            ...props.state,
                             password: event.target.value,
                         })
                     }}
@@ -205,6 +205,6 @@ function UserComponent(props, state) {
 
 
 function select(state) {
-    return { state: state }
+    return { state: state.getUserInfo }
 }
-export default connect(select, action)(UserComponent)
+export default connect(select, userAction)(UserComponent)

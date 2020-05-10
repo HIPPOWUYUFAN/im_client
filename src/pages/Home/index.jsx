@@ -1,24 +1,7 @@
-// import React, { Component } from 'react';
-
-
-
-// export default class Home extends Component {
-
-//     render() {
-//         console.log(this.props)
-//         return (
-//             <div>
-//                 <div>Home,13213</div>
-
-
-//                 {/* <HomeRouter /> */}
-//             </div>
-//         )
-//     }
-// }
-
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { connect } from 'react-redux'
+import { chatAction } from '@store/actions'
+import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -30,15 +13,47 @@ import IconButton from '@material-ui/core/IconButton';
 import hippo from '@assets/img/hippo.svg';
 import PersonIcon from '@material-ui/icons/Person';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
-import Chat from '@pages/Chat'
-import {Dialog_left,Dialog_right} from '@components/Dialog'
+import Chat from '@components/ChatListComponent'
+import ChatContent from '@components/ChatContentComponent'
+import ChatInput from '@components/ChatInputComponent'
+import { useSnackbar } from 'notistack';
+import List from '@material-ui/core/List';
+import { useRef } from 'react';
+
 
 
 const drawerWidth = 80;
-
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        // '& .MuiTextField-root': {
+        //     width: '100%',
+        //     height: "100%"
+        // },
+        // '& .MuiOutlinedInput-multiline': {
+        //     height: "100%",
+        //     width: '100%',
+        // },
+        // '& .MuiInputBase-root': {
+        //     alignItems: 'flex-start'
+        // },
+        // '& .MuiOutlinedInput-root': {
+        //     borderRadius: 0
+        // },
+        // '& .MuiOutlinedInput-inputMultiline': {
+        //     height: '100% !important',
+        //     overflow: 'auto !important'
+        // },
+        // '& .MuiOutlinedInput-notchedOutline': {
+        //     borderWidth: '1px 0 0 0',
+        // },
+        // '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+        //     borderWidth: '1px 0 0 0',
+        //     outline: 0,
+        // },
+        // '& .MuiPaper-root':{
+        //     backgroundColor:theme.palette.background.paper
+        // }
     },
     appBar: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -51,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         width: drawerWidth,
         boxShadow: theme.shadows[10],
-        // backgroundColor: theme.palette.background.drawer,
+        background: theme.palette.background.paper
     },
     toolbar: {
         display: 'flex',
@@ -62,18 +77,44 @@ const useStyles = makeStyles((theme) => ({
     },
 
     content: {
-        flexGrow: 1,
+        flex: 1,
         // padding: theme.spacing(3),
         backgroundColor: theme.palette.background.drawer,
         height: 'calc(100vh)',
-        // display: 'flex',
-        overflow: 'hidden'
+        display: 'flex',
+        flexDirection: 'column',
+        // overflow: 'hidden'
     },
 }));
-
-export default function Home() {
+function Home(props, state) {
+    console.log(props)
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
+
+    function catchTabs(e, value) {
+        console.log(e, value)
+        if (value == 2) {
+            enqueueSnackbar('该功能暂未开放', {
+                variant: 'warning',
+                autoHideDuration: 1500,
+                preventDuplicate: true,
+                anchorOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
+                },
+            })
+        } else {
+            props.setTabs(value)
+        }
+    };
+
+    let scroll = useRef()
+    function emit(e) {
+        console.log(e)
+        e?scroll.current.scrollTop = scroll.current.scrollHeight:null
+    }
     return (
+
         <div className={classes.root}>
             <CssBaseline />
 
@@ -81,7 +122,7 @@ export default function Home() {
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <Typography variant="h6" noWrap>
-                        Permanent drawer
+                        River house chat
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -107,14 +148,14 @@ export default function Home() {
                 <Divider />
 
                 {/* icon tabs */}
-                <div className={classes.toolbar}>
-                    <IconButton style={{ padding: 16 }}>
-                        <ChatBubbleIcon style={{ fontSize: 20 }} />
+                <div className={classes.toolbar} >
+                    <IconButton style={{ padding: 16 }} onClick={(ev) => { catchTabs(ev, 1) }} disabled={props.state.tabs == 1 ? true : false}>
+                        <ChatBubbleIcon style={{ fontSize: 20 }} color={props.state.tabs == 1 ? "primary" : "action"} />
                     </IconButton>
                 </div>
                 <div className={classes.toolbar}>
-                    <IconButton>
-                        <PersonIcon />
+                    <IconButton onClick={(ev) => { catchTabs(ev, 2) }} disabled={props.state.tabs == 2 ? true : false}>
+                        <PersonIcon color={props.state.tabs == 2 ? "primary" : "action"} />
                     </IconButton>
                 </div>
             </Drawer>
@@ -122,11 +163,17 @@ export default function Home() {
 
             <main className={classes.content}>
                 <div className={classes.toolbar} style={{ padding: 0 }} />
-                <div style={{ display: 'flex' }}>
-                    <Chat />
+                <div style={{ display: 'flex', flex: 1, overflow: 'auto' }}>
+                    <Chat emit={emit.bind(this)}/>
                     <div style={{ flex: 1 }}>
-                        <Dialog_left />
-                        <Dialog_right />
+                        <div style={{ height: '60%', overflow: 'auto' }} ref={scroll}>
+                            <ChatContent />
+                        </div>
+                        {/* <div ref={scroll}>
+                        </div> */}
+                        <div style={{ height: '40%' }}>
+                            <ChatInput emit={emit.bind(this)} />
+                        </div>
                     </div>
                 </div>
 
@@ -134,3 +181,9 @@ export default function Home() {
         </div>
     );
 }
+
+
+function select(state) {
+    return { state: state.getChatInfo }
+}
+export default connect(select, chatAction)(Home)

@@ -14,7 +14,7 @@ export const setLocalStorage = (name, content) => {
  */
 export const getLocalStorage = name => {
     if (!name) return
-    return window.localStorage.getItem(name)
+    return JSON.parse(window.localStorage.getItem(name))
 }
 
 /**
@@ -31,9 +31,18 @@ export const removeLocalStorage = name => {
 /**
  * key value
  */
-export const duplicate = (list,data) => {
-    Object.keys(data).map(key=>{
+export const duplicate = (list, data) => {
+    Object.keys(data).map(key => {
         list[key] = data[key]
     })
     return list
 }
+
+/**
+ * 
+ * @param {*} str 
+ * 去前后空格
+ */
+export const trim = (str) => (
+    str.replace(/(^\s*)|(\s*$)/g, "")
+)
