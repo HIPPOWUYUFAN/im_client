@@ -19,6 +19,7 @@ import ChatInput from '@components/ChatInputComponent'
 import { useSnackbar } from 'notistack';
 import ws from '@services/ws'
 import { getLocalStorage } from '@services/public'
+import { Redirect } from 'react-router'
 
 
 const drawerWidth = 80;
@@ -60,15 +61,21 @@ function Home(props, state) {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
 
-    const uid = getLocalStorage('_token').user_id
-
+    const uid = getLocalStorage('_token') ? getLocalStorage('_token').user_id : null
+    let scroll = useRef()
+    function emit(e) {
+        console.log(e)
+        e ? scroll.current.scrollTop = scroll.current.scrollHeight : null
+    }
     useEffect(() => {
-        console.log('生命周期')
+        console.log('生命周期-----------------------')
+        if(!uid)return 
         ws.emit('login', getLocalStorage('_token')).then(r => {
             console.log(r)
         })
         ws.on('getMessage', (data) => {
             if (data) {
+                console.log(props)
                 props.setChatMessage(
                     {
                         name: data.senderName,
@@ -78,10 +85,9 @@ function Home(props, state) {
                         }
                     }
                 ).then(r => {
-                    if(data.senderName == props.state.chating){
-                        emit(true)
-                    }
+                    emit(true)
                     console.log('接收成功', data)
+                    console.log(scroll)
                 })
             }
         })
@@ -91,69 +97,69 @@ function Home(props, state) {
             console.log(data)
             if (data && data.add) {
                 props.setChatListAdd(data.add).then(r => {
-                console.log('好友上线通知')
-                enqueueSnackbar(`${data.add.name}上线了！！！`, {
-                  variant: 'info',
-                  autoHideDuration: 1500,
-                  preventDuplicate: true,
-                  anchorOrigin: {
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                  },
-              })
-              })
-              let obj = {}
-              obj[data.add.name] = []
-              if(!props.state.chating){
-                props.setChating(data.add.name)
-              }
-              props.setChats(obj).then(r => {
-                console.log('新增好友消息对象')
-              })
+                    console.log('好友上线通知')
+                    enqueueSnackbar(`${data.add.name}上线了！！！`, {
+                        variant: 'info',
+                        autoHideDuration: 1500,
+                        preventDuplicate: true,
+                        anchorOrigin: {
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        },
+                    })
+                })
+                let obj = {}
+                obj[data.add.name] = []
+                if (!props.state.chating) {
+                    props.setChating(data.add.name)
+                }
+                props.setChats(obj).then(r => {
+                    console.log('新增好友消息对象')
+                })
             }
             if (data && data.del) {
                 props.setChatListDel(data.del).then(r => {
-                console.log('好友下线通知')
+                    console.log('好友下线通知')
 
-                enqueueSnackbar(`${data.del.name}离开了！！！`, {
-                    variant: 'warning',
-                    autoHideDuration: 1500,
-                    preventDuplicate: true,
-                    anchorOrigin: {
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    },
+                    enqueueSnackbar(`${data.del.name}离开了！！！`, {
+                        variant: 'warning',
+                        autoHideDuration: 1500,
+                        preventDuplicate: true,
+                        anchorOrigin: {
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        },
+                    })
                 })
-              })
             }
-          })
-      
-          ws.on('getUserList', (data) => {
+        })
+
+        ws.on('getUserList', (data) => {
             console.log(data)
             if (data && data.userList != {}) {
-              let arr = []
-              let obj = {}
-              Object.keys(data.userList).map(p => {
-                console.log(p,uid)
-                if (p != uid) {
-                  arr.push({ name: data.userList[p], uid: p })
-                  obj[data.userList[p]] = []
+                let arr = []
+                let obj = {}
+                Object.keys(data.userList).map(p => {
+                    console.log(p, uid)
+                    if (p != uid) {
+                        arr.push({ name: data.userList[p], uid: p })
+                        obj[data.userList[p]] = []
+                    }
+                })
+                if (arr.length) {
+                    props.setChating(arr[0].name)
                 }
-              })
-              if(arr.length){
-                props.setChating(arr[0].name)
-              }
-      
-              props.setChatList(arr).then(r => {
-                console.log('登录同步线上用户成功')
-              })
-      
-              props.setChats(obj).then(r => {
-                console.log('新增线上用户消息对象')
-              })
+
+                props.setChatList(arr).then(r => {
+                    console.log('登录同步线上用户成功')
+                })
+
+                props.setChats(obj).then(r => {
+                    console.log('新增线上用户消息对象')
+                })
             }
-          })
-      
+        })
+
     }, []);
 
     function catchTabs(e, value) {
@@ -173,14 +179,11 @@ function Home(props, state) {
         }
     };
 
-    let scroll = useRef()
-    function emit(e) {
-        console.log(e)
-        e ? scroll.current.scrollTop = scroll.current.scrollHeight : null
-    }
+    
     return (
 
         <div className={classes.root}>
+            {!uid ? <Redirect to="/signin" /> : null}
             <CssBaseline />
 
             {/* 头部栏 */}
