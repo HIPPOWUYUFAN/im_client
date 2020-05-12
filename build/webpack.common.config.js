@@ -42,7 +42,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(jsx|js)$/,
+                test: /\.(js|jsx)$/,
                 use: ['babel-loader?cacheDirectory=true'],
                 include: path.join(__dirname, '../src')
             },

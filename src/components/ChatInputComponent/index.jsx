@@ -42,7 +42,6 @@ function ChatInput(props) {
     const classes = useStyles()
     console.log(props,'input')
     const { chating, setChatMessage,chatList } = props
-    // const setChatMessage = chatAction.setChatMessage
     console.log(props.dispatch)
     const username = getLocalStorage('_token')['user_name']
     const senderId = getLocalStorage('_token')['user_id']
