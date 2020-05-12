@@ -50,6 +50,9 @@ function getChatInfo(state = chatInfo, action) {
         case 'setChatListDel':
             state.chatList = state.chatList.filter(p => p.name != action.data.name)
             delete state.chats[action.data.name]
+            if (action.data.name == state.chating) {
+                state.chating = state.chatList.length ? state.chatList[0].name : null
+            }
             state = {
                 ...state,
             }
@@ -64,7 +67,7 @@ function getChatInfo(state = chatInfo, action) {
             return state
         case 'setChatMessage':
             let index = state.chatList.findIndex(p => p.name == action.data.name)
-            if (index>=0) {
+            if (index >= 0) {
                 let arr = state.chatList.splice(index, 1)
                 arr[0].lastMessage = action.data.content.message
                 state.chatList = [arr[0], ...state.chatList]

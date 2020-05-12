@@ -18,7 +18,7 @@ import ChatContent from '@components/ChatContentComponent'
 import ChatInput from '@components/ChatInputComponent'
 import { useSnackbar } from 'notistack';
 import ws from '@services/ws'
-import {getLocalStorage} from '@services/public'
+import { getLocalStorage } from '@services/public'
 
 
 const drawerWidth = 80;
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-ws.emit('login',getLocalStorage('_token')).then(r=>{
+ws.emit('login', getLocalStorage('_token')).then(r => {
     console.log(r)
 })
 function Home(props, state) {
@@ -67,12 +67,13 @@ function Home(props, state) {
     //     emits()
     // }
     // on()
-    
+    const uid = getLocalStorage('_token').user_id
+
     useEffect(() => {
         console.log('生命周期')
-        
-        ws.on('getMessage',(data)=>{
-            if(data){
+
+        ws.on('getMessage', (data) => {
+            if (data) {
                 props.setChatMessage(
                     {
                         name: data.senderName,
@@ -82,11 +83,79 @@ function Home(props, state) {
                         }
                     }
                 ).then(r => {
-                    console.log('接收成功',data)
+                    console.log('接收成功', data)
                 })
             }
         })
-       
+
+
+        ws.on('getUsers', (data) => {
+            console.log(data)
+            if (data && data.add) {
+                props.setChatListAdd(data.add).then(r => {
+                console.log('好友上线通知')
+                enqueueSnackbar(`${data.add.name}上线了！！！`, {
+                  variant: 'info',
+                  autoHideDuration: 1500,
+                  preventDuplicate: true,
+                  anchorOrigin: {
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                  },
+              })
+              })
+              let obj = {}
+              obj[data.add.name] = []
+              if(!props.state.chating){
+                props.setChating(data.add.name)
+              }
+              props.setChats(obj).then(r => {
+                console.log('新增好友消息对象')
+              })
+            }
+            if (data && data.del) {
+                props.setChatListDel(data.del).then(r => {
+                console.log('好友下线通知')
+
+                enqueueSnackbar(`${data.del.name}离开了！！！`, {
+                    variant: 'warning',
+                    autoHideDuration: 1500,
+                    preventDuplicate: true,
+                    anchorOrigin: {
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    },
+                })
+              })
+            }
+          })
+      
+          ws.on('getUserList', (data) => {
+            console.log(data)
+            if (data && data.userList != {}) {
+              let arr = []
+              let obj = {}
+              Object.keys(data.userList).map(p => {
+                console.log(p,uid)
+                if (p != uid) {
+                  arr.push({ name: data.userList[p], uid: p })
+                  obj[data.userList[p]] = []
+                }
+              })
+              if(arr.length){
+                props.setChating(arr[0].name)
+              }
+      
+              props.setChatList(arr).then(r => {
+                console.log('登录同步线上用户成功')
+              })
+      
+              props.setChats(obj).then(r => {
+                console.log('新增线上用户消息对象')
+              })
+            }
+          })
+      
     }, []);
 
     function catchTabs(e, value) {
@@ -161,20 +230,30 @@ function Home(props, state) {
 
             <main className={classes.content}>
                 <div className={classes.toolbar} style={{ padding: 0 }} />
-                <div style={{ display: 'flex', flex: 1, overflow: 'auto' }}>
-                    <Chat emit={emit.bind(this)} />
-                    <div style={{ flex: 1 }}>
-                        <div style={{ height: '60%', overflow: 'auto' }} ref={scroll}>
-                            <ChatContent />
+                {props.state.chatList.length ?
+
+                    <div style={{ display: 'flex', flex: 1, overflow: 'auto' }}>
+                        <Chat emit={emit.bind(this)} />
+                        <div style={{ flex: 1 }}>
+                            <div style={{ height: '60%', overflow: 'auto' }} ref={scroll}>
+                                <ChatContent />
+                            </div>
+                            <div style={{ height: '40%' }}>
+                                <ChatInput emit={emit.bind(this)} />
+                            </div>
                         </div>
-                        {/* <div ref={scroll}>
-                        </div> */}
-                        <div style={{ height: '40%' }}>
-                            <ChatInput emit={emit.bind(this)} />
+
+                    </div> :
+                    <div style={{ display: 'flex', flex: 1, overflow: 'auto' }}>
+                        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', paddingBottom: '200px' }}>
+                            <Box
+                                component="img"
+                                src={hippo}
+                            /><br />
+                            <span>暂无好友上线哦</span>
                         </div>
                     </div>
-                </div>
-
+                }
             </main>
         </div>
     );
