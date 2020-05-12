@@ -78,7 +78,7 @@ function Home(props, state) {
                         }
                     }
                 ).then(r => {
-                    if(data.name == props.state.chating){
+                    if(data.senderName == props.state.chating){
                         emit(true)
                     }
                     console.log('接收成功', data)
