@@ -60,13 +60,7 @@ function Home(props, state) {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
 
-    // function on(){
-    //     emits()
-    // }
-    // on()
     const uid = getLocalStorage('_token').user_id
-
-    
 
     useEffect(() => {
         console.log('生命周期')
