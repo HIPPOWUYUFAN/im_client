@@ -36,7 +36,7 @@ module.exports = {
     /*输出到dist目录，输出文件名字为bundle.js*/
     output: {
         path: path.join(__dirname, '../dist'),
-        filename: 'static/js/[name].bundle.js',
+        filename: devMode ? 'static/js/[name].bundle.js' : 'static/js/[name].[hash].js',
     },
    
     module: {
