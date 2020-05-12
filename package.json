@@ -49,6 +49,7 @@
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "socket.io": "^2.3.0",
     "webpack-merge": "^4.2.2"
   }
 }

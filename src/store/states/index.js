@@ -6,24 +6,24 @@ export const userInfo = {
 
 export const chatInfo = {
     tabs: 1,
-    chating: 'Hippo',
+    chating: '',
     chats: {
-        Hippo: [
-            {
-                name: 'Hippo',
-                message: '我是第一'
-            }
-        ],
-        EveIvan: [
-            {
-                name: 'EveIvan',
-                message: '我是第二'
-            }
-        ]
+        // Hippo: [
+        //     {
+        //         name: 'Hippo',
+        //         message: '我是第一'
+        //     }
+        // ],
+        // EveIvan: [
+        //     {
+        //         name: 'EveIvan',
+        //         message: '我是第二'
+        //     }
+        // ]
     },
     chatList: [
-        { name: 'Hippo',lastMessage:'我是第一' },
-        { name: 'EveIvan',lastMessage:'我是第二' },
+        // { name: 'Hippo',lastMessage:'我是第一' },
+        // { name: 'EveIvan',lastMessage:'我是第二' },
     ]
     // chatList: [
     //     {

@@ -14,7 +14,7 @@ import { Redirect } from 'react-router'
 
 function UserComponent(props, state) {
     const { getRedirect, setRedirect } = isRedirect()
-    console.log(props)
+    // console.log(props)
 
     // 自适应屏幕高度
     // const loginSizeHeight = LoginSize()

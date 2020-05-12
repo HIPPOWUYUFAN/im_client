@@ -1,10 +1,11 @@
-import React from 'react';
+import React,{ useEffect, useRef }  from 'react';
 import { connect } from 'react-redux'
 import { chatAction } from '@store/actions'
 import { getLocalStorage } from '@services/public'
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { trim } from '@services/public'
+import ws from '@services/ws'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,11 +40,12 @@ const useStyles = makeStyles((theme) => ({
 
 function ChatInput(props) {
     const classes = useStyles()
-    const { chating, setChatMessage } = props
+    console.log(props,'input')
+    const { chating, setChatMessage,chatList } = props
     // const setChatMessage = chatAction.setChatMessage
     console.log(props.dispatch)
     const username = getLocalStorage('_token')['user_name']
-
+    const senderId = getLocalStorage('_token')['user_id']
     let command = false
     async function keyDown(e) {
         if (e.keyCode == 91) { command = true }
@@ -61,17 +63,25 @@ function ChatInput(props) {
             event.preventDefault();
             event.stopPropagation();
             if (content) {
-                setChatMessage(
-                    {
-                        name: chating,
-                        content: {
-                            name: username,
-                            message: content
+                const uid = chatList.length?chatList.filter(p=>p.name==chating)[0].uid:null
+                ws.emit(
+                    'sendMessage',
+                    {receiverId:uid,senderId:senderId,senderName:username,message:content}
+                ).then(r=>{
+                    console.log(r)
+                    console.log('发送成功')
+                    setChatMessage(
+                        {
+                            name: chating,
+                            content: {
+                                name: username,
+                                message: content
+                            }
                         }
-                    }
-                ).then(r => {
-                    props.emit(true)
-                    event.target.value = null
+                    ).then(r => {
+                        props.emit(true)
+                        event.target.value = null
+                    })
                 })
             }
         }
@@ -94,6 +104,7 @@ function ChatInput(props) {
 function select(state) {
     return {
         chating: state.getChatInfo.chating,
+        chatList: state.getChatInfo.chatList,
     }
 }
 export default connect(select, chatAction)(ChatInput)

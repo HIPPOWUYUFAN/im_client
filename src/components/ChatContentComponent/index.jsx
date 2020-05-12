@@ -9,15 +9,15 @@ function ChatContent(props) {
     const username = getLocalStorage('_token').user_name
     console.log(chats)
     return (
-        <div style={{width:'100%'}}>
-            {
-                chats.map((p,i) => {
-                    if(p.name == username){
-                        return <Dialog_right data={p} key={i}/>
-                    }else{
-                        return <Dialog_left data={p} key={i}/>
+        <div style={{ width: '100%' }}>
+            {chats && chats.length ?
+                chats.map((p, i) => {
+                    if (p.name == username) {
+                        return <Dialog_right data={p} key={i} />
+                    } else {
+                        return <Dialog_left data={p} key={i} />
                     }
-                })
+                }):null
             }
         </div>
     )
@@ -27,7 +27,7 @@ function ChatContent(props) {
 
 function select(state) {
     return {
-        chats: state.getChatInfo.chats[state.getChatInfo.chating],
+        chats: state.getChatInfo.chating?state.getChatInfo.chats[state.getChatInfo.chating]:null,
     }
 }
-export default connect(select, chatAction,null,{forwardRef:true})(ChatContent)
+export default connect(select, chatAction, null, { forwardRef: true })(ChatContent)

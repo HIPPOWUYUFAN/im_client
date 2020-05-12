@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux'
 import { chatAction } from '@store/actions'
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,43 +17,14 @@ import Chat from '@components/ChatListComponent'
 import ChatContent from '@components/ChatContentComponent'
 import ChatInput from '@components/ChatInputComponent'
 import { useSnackbar } from 'notistack';
-import List from '@material-ui/core/List';
-import { useRef } from 'react';
-
+import ws from '@services/ws'
+import {getLocalStorage} from '@services/public'
 
 
 const drawerWidth = 80;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        // '& .MuiTextField-root': {
-        //     width: '100%',
-        //     height: "100%"
-        // },
-        // '& .MuiOutlinedInput-multiline': {
-        //     height: "100%",
-        //     width: '100%',
-        // },
-        // '& .MuiInputBase-root': {
-        //     alignItems: 'flex-start'
-        // },
-        // '& .MuiOutlinedInput-root': {
-        //     borderRadius: 0
-        // },
-        // '& .MuiOutlinedInput-inputMultiline': {
-        //     height: '100% !important',
-        //     overflow: 'auto !important'
-        // },
-        // '& .MuiOutlinedInput-notchedOutline': {
-        //     borderWidth: '1px 0 0 0',
-        // },
-        // '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-        //     borderWidth: '1px 0 0 0',
-        //     outline: 0,
-        // },
-        // '& .MuiPaper-root':{
-        //     backgroundColor:theme.palette.background.paper
-        // }
     },
     appBar: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -75,21 +46,48 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0, 1),
         ...theme.mixins.toolbar,
     },
-
     content: {
         flex: 1,
-        // padding: theme.spacing(3),
         backgroundColor: theme.palette.background.drawer,
         height: 'calc(100vh)',
         display: 'flex',
         flexDirection: 'column',
-        // overflow: 'hidden'
     },
 }));
+
+ws.emit('login',getLocalStorage('_token')).then(r=>{
+    console.log(r)
+})
 function Home(props, state) {
     console.log(props)
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
+
+    // function on(){
+    //     emits()
+    // }
+    // on()
+    
+    useEffect(() => {
+        console.log('生命周期')
+        
+        ws.on('getMessage',(data)=>{
+            if(data){
+                props.setChatMessage(
+                    {
+                        name: data.senderName,
+                        content: {
+                            name: data.senderName,
+                            message: data.message
+                        }
+                    }
+                ).then(r => {
+                    console.log('接收成功',data)
+                })
+            }
+        })
+       
+    }, []);
 
     function catchTabs(e, value) {
         console.log(e, value)
@@ -111,7 +109,7 @@ function Home(props, state) {
     let scroll = useRef()
     function emit(e) {
         console.log(e)
-        e?scroll.current.scrollTop = scroll.current.scrollHeight:null
+        e ? scroll.current.scrollTop = scroll.current.scrollHeight : null
     }
     return (
 
@@ -164,7 +162,7 @@ function Home(props, state) {
             <main className={classes.content}>
                 <div className={classes.toolbar} style={{ padding: 0 }} />
                 <div style={{ display: 'flex', flex: 1, overflow: 'auto' }}>
-                    <Chat emit={emit.bind(this)}/>
+                    <Chat emit={emit.bind(this)} />
                     <div style={{ flex: 1 }}>
                         <div style={{ height: '60%', overflow: 'auto' }} ref={scroll}>
                             <ChatContent />
