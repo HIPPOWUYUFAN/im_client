@@ -13,7 +13,6 @@ class socket {
     constructor() {
         this.socket = io.connect(`${getBaseUrl(process.env.NODE_ENV)}`);
     }
-
     // 监听服务端发送的事件
     on(event, fn) {
         return new Promise((resolve, reject) => {

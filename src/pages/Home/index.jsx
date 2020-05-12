@@ -55,9 +55,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-ws.emit('login', getLocalStorage('_token')).then(r => {
-    console.log(r)
-})
 function Home(props, state) {
     console.log(props)
     const classes = useStyles();
@@ -69,9 +66,13 @@ function Home(props, state) {
     // on()
     const uid = getLocalStorage('_token').user_id
 
+    
+
     useEffect(() => {
         console.log('生命周期')
-
+        ws.emit('login', getLocalStorage('_token')).then(r => {
+            console.log(r)
+        })
         ws.on('getMessage', (data) => {
             if (data) {
                 props.setChatMessage(
