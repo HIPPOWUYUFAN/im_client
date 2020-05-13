@@ -10,6 +10,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import hippo from '@assets/img/hippo.svg';
 import PersonIcon from '@material-ui/icons/Person';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
@@ -30,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
+        '& .MuiToolbar-regular':{
+            display:'flex',
+            justifyContent: 'space-between',
+        }
     },
     drawer: {
         width: drawerWidth,
@@ -192,6 +197,10 @@ function Home(props, state) {
                     <Typography variant="h6" noWrap>
                         River house chat
                     </Typography>
+
+                    <IconButton onClick={()=>window.open('https://github.com/HIPPOWUYUFAN/im_client')}>
+                        <GitHubIcon/>
+                    </IconButton>
                 </Toolbar>
             </AppBar>
 
