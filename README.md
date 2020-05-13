@@ -6,5 +6,5 @@
 </p>
 
 <p align="center">
-Weclome to River house chat
+Welcome to River house chat
 <p/>
