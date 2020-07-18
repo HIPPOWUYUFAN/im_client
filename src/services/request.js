@@ -4,7 +4,7 @@ import { msg, loading } from '@components/GlobalComponent'
 
 const getBaseUrl = (env) => {
     let base = {
-        production: 'https://api.hippowu.com:8989',
+        production: 'https://api.hippowu.com',
         development: 'http://localhost:8989',
     }[env];
     return base;
