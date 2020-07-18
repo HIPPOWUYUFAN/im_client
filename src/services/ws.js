@@ -2,7 +2,7 @@ import io from 'socket.io-client'
 
 const getBaseUrl = (env) => {
     let base = {
-        production: 'ws://47.91.243.209:8900',
+        production: 'wss://api.hippowu.com:8900',
         development: 'ws://localhost:8900',
     }[env];
     return base;
