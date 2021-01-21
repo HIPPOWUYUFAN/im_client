@@ -9,6 +9,10 @@ const copyPlugin = new copyWebpackPlugin([{
     from: path.resolve(__dirname, "../favicon.ico"),
     to: './',
     ignore: ['.*']
+},{
+    from: path.resolve(__dirname, "../vercel.json"),
+    to: './',
+    ignore: ['.*']
 }])
 module.exports = merge(common, {
     mode: 'production',
